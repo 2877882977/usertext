@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="usertext.basic.dao.UserExtraInfoMapper">
+  <resultMap id="BaseResultMap" type="usertext.basic.entity.UserExtraInfo">
+    <id column="extra_info_id" jdbcType="INTEGER" property="extraInfoId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="age" jdbcType="TINYINT" property="age" />
+    <result column="id_card_number" jdbcType="VARCHAR" property="idCardNumber" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    extra_info_id, user_id, phone_number, address, age, id_card_number
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_extra_info
+    where extra_info_id = #{extraInfoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_extra_info
+    where extra_info_id = #{extraInfoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="usertext.basic.entity.UserExtraInfo">
+    insert into user_extra_info (extra_info_id, user_id, phone_number, 
+      address, age, id_card_number
+      )
+    values (#{extraInfoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, #{idCardNumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="usertext.basic.entity.UserExtraInfo">
+    insert into user_extra_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="extraInfoId != null">
+        extra_info_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="idCardNumber != null">
+        id_card_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="extraInfoId != null">
+        #{extraInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=TINYINT},
+      </if>
+      <if test="idCardNumber != null">
+        #{idCardNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="usertext.basic.entity.UserExtraInfo">
+    update user_extra_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=TINYINT},
+      </if>
+      <if test="idCardNumber != null">
+        id_card_number = #{idCardNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where extra_info_id = #{extraInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="usertext.basic.entity.UserExtraInfo">
+    update user_extra_info
+    set user_id = #{userId,jdbcType=INTEGER},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      age = #{age,jdbcType=TINYINT},
+      id_card_number = #{idCardNumber,jdbcType=VARCHAR}
+    where extra_info_id = #{extraInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="userEIUpd" parameterType="usertext.basic.entity.UserExtraInfo">
+    update user_extra_info
+    set user_id = #{userId,jdbcType=INTEGER},
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        age = #{age,jdbcType=TINYINT},
+        id_card_number = #{idCardNumber,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>
