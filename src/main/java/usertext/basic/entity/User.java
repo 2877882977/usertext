@@ -10,8 +10,16 @@ public class User {
     private String email;
 
     private String passwordHash;
-
+    private String password;
     private Date registrationDate;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getUserId() {
         return userId;
