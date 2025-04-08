@@ -23,4 +23,6 @@ public interface UserMapper {
     User selectByUserEmail(String email);
     int userUpd(User user);
     List<Map<String, Object>> groupAndFilterUser(int ageThreshold);
+    List<Map<String, Object>> groupAverAgeFilterUser(int ageThreshold);
+    List<Map<String, Object>> maximumRegistrationDate(int ageThreshold);
 }

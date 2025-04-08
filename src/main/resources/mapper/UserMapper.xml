@@ -109,8 +109,23 @@
            COUNT(u.user_id) AS count
     from users u
       INNER JOIN user_extra_info uei ON u.user_id = uei.user_id
-    where uei.age >= #{age,jdbcType=INTEGER}
+    where uei.age >= #{ageThreshold,jdbcType=INTEGER}
     GROUP BY u.registration_date
     ORDER BY u.registration_date
+  </select>
+  <select id="groupAverAgeFilterUser" parameterType="java.lang.Integer" resultType="map">
+    select u.registration_date AS registration_date,
+           AVG(uei.age) AS age
+    from users u
+      INNER JOIN user_extra_info uei ON u.user_id = uei.user_id
+    where uei.age >= #{ageThreshold,jdbcType=INTEGER}
+    GROUP BY u.registration_date
+    ORDER BY u.registration_date
+  </select>
+  <select id="maximumRegistrationDate" parameterType="java.lang.Integer" resultType="map">
+    select MIN(u.registration_date) AS registration_date
+    from users u
+           INNER JOIN user_extra_info uei ON u.user_id = uei.user_id
+    where uei.age = #{ageThreshold,jdbcType=INTEGER}
   </select>
 </mapper>

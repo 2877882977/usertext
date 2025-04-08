@@ -30,13 +30,16 @@ public class UserServiceImpl implements UserService {
     //添加用户信息处理与数据库基本操作
     @Override
     public  String userAdd(String userinfo){
+
         //用户排序，按注册日期从早到晚的顺序进行排序
         JsonArray jsonArray = JsonParser.parseString(userinfo).getAsJsonArray();
         JsonArray sortedJsonArray = StreamSupport.stream(jsonArray.spliterator(),false)
                 .map(JsonElement::getAsJsonObject)
                 .sorted(Comparator.comparing(obj -> obj.get("registrationDate").getAsString()))
                 .collect(JsonArray::new,JsonArray::add,JsonArray::addAll);
-        System.out.println(sortedJsonArray);
+//        System.out.println(sortedJsonArray);
+
+
         try{
             ObjectMapper  objectMapper = new ObjectMapper();
             String jsonString = sortedJsonArray.toString();
@@ -51,10 +54,10 @@ public class UserServiceImpl implements UserService {
                 userExtraInfo.setAddress(user.getAddress());
                 userExtraInfo.setPhoneNumber(user.getPhoneNumber());
                 userExtraInfo.setIdCardNumber(user.getIdCardNumber());
-                //邮箱校验
+                //邮箱校验是否已存在
                 User UserEmail = userMapper.selectByUserEmail(user.getEmail());
                 if(UserEmail == null){
-                    System.out.println("ins 用户信息");
+                    System.out.println("insert 用户信息");
                     userMapper.insert(user);
                     User UserAdd = userMapper.selectByUserEmail(user.getEmail());
                     int id = UserAdd.getUserId();
@@ -80,8 +83,22 @@ public class UserServiceImpl implements UserService {
 //            System.out.println("密码错误1");
     }
     //groupFilterUsers接口 用于筛选用户年龄。
-    public List<Map<String, Object>> groupFilterUsers(@RequestParam int ageThreshold){
+    @Override
+    public List<Map<String, Object>> groupFilterUsers(int ageThreshold){
         System.out.println(ageThreshold);
         return userMapper.groupAndFilterUser(ageThreshold);
     }
+    //groupAge 用于查询用户平均年龄。
+    @Override
+    public List<Map<String, Object>> groupAverAge(int ageThreshold){
+        System.out.println(ageThreshold);
+        return userMapper.groupAverAgeFilterUser(ageThreshold);
+    }
+    //groupAge 用于查询用户年龄的最大注册日期。
+    @Override
+    public List<Map<String, Object>> groupMaxData(int ageThreshold){
+        System.out.println(ageThreshold);
+        return userMapper.maximumRegistrationDate(ageThreshold);
+    }
+
 }
